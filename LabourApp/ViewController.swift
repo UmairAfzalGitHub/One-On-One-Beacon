@@ -49,10 +49,10 @@ extension ViewController: CBPeripheralManagerDelegate {
         let uuid = UUID(uuidString: localBeaconUUID)!
         
         if #available(iOS 13.0, *) {
-            localBeacon = CLBeaconRegion(uuid: uuid, major: localBeaconMajor, minor: localBeaconMinor, identifier: "LabourAppLocalId")
+            localBeacon = CLBeaconRegion(uuid: uuid, major: localBeaconMajor, minor: localBeaconMinor, identifier: "MyBeacon")
         
         } else {
-            localBeacon = CLBeaconRegion(proximityUUID: uuid, major: localBeaconMajor, minor: localBeaconMinor, identifier: "Your private identifer here")
+            localBeacon = CLBeaconRegion(proximityUUID: uuid, major: localBeaconMajor, minor: localBeaconMinor, identifier: "MyBeacon")
         }
 
         beaconPeripheralData = localBeacon.peripheralData(withMeasuredPower: nil)

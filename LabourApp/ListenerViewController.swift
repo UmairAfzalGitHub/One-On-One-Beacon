@@ -31,10 +31,19 @@ class ListenerViewController: UIViewController {
     
     func startScanning() {
         let uuid = UUID(uuidString: "5A4BCFCE-174E-4BAC-A814-092E77F6B7E5")!
-        let beaconRegion = CLBeaconRegion(proximityUUID: uuid, major: 123, minor: 456, identifier: "MyBeacon")
+        var localBeacon: CLBeaconRegion!
 
-        locationManager.startMonitoring(for: beaconRegion)
-        locationManager.startRangingBeacons(in: beaconRegion)
+        if #available(iOS 13.0, *) {
+            localBeacon = CLBeaconRegion(uuid: uuid, identifier: "MyBeacon")
+        
+        } else {
+            localBeacon = CLBeaconRegion(proximityUUID: uuid, identifier: "MyBeacon")
+        }
+        
+        //let beaconRegion = CLBeaconRegion(proximityUUID: uuid, major: 123, minor: 456, identifier: "MyBeacon")
+
+        locationManager.startMonitoring(for: localBeacon)
+        locationManager.startRangingBeacons(in: localBeacon)
     }
 }
 
@@ -56,6 +65,11 @@ extension ListenerViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
         
         if beacons.count > 0 {
+            
+            beacons.forEach { (beacon) in
+                print("Currently being observed \(beacon.minor)")
+            }
+            
             updateDistance(beacons[0].proximity)
             
         } else {
